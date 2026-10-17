@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from 'next/link'
 import { PT_Sans_Narrow } from "next/font/google";
 import "./globals.css";
 
@@ -13,12 +14,37 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const links = [
+    { name: 'Home', href: '/' },
+    { name: 'Datacenters', href: '/datacenters' },
+    { name: 'Datacenter Timelines', href: '/datacenters/timelines' },
+    { name: 'Datacenter Cooling', href: '/datacenters/cooling' },
+    { name: 'Datacenter Cooling Towers', href: '/datacenters/cooling-towers' },
+    { name: 'Datacenter Chips', href: '/datacenters/chips' },
+    { name: 'Datacenter Chip Quantities', href: '/datacenters/chip-quantities' },
+  ];
   return (
     <html
       lang="en"
       className={`${ptSansNarrow.className} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col grow h-full">
+        <div className="flex flex-row grow">
+          <div className="flex-col bg-blue-200 shrink p-5">
+            {links.map(link => {
+              return (<Link
+                key={link.name}
+                href={link.href}
+              >
+                <p className="block py-1 font-bold">{link.name}</p>
+              </Link>)
+            })}
+          </div>
+          <div className="flex-col bg-violet-300 grow p-5">
+            {children}
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
